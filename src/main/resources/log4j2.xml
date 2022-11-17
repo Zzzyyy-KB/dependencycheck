@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="info">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%level] - %m%n" />
+		</Console>
+		<RollingFile name="MyRollingFile" fileName="logs/app.log"
+					 filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB"/>
+			</Policies>
+		</RollingFile>
+		<File name="NodeFile" fileName="logs/node.log" append="false">
+			<PatternLayout>
+				<Pattern>%m%n</Pattern>
+			</PatternLayout>
+		</File>
+		<File name="EdgeFile" fileName="logs/edge.log" append="false">
+			<PatternLayout>
+				<Pattern>%m%n</Pattern>
+			</PatternLayout>
+		</File>
+	</Appenders>
+
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyRollingFile" />
+		</Root>
+		<Logger name="Node" level="debug" additivity="false">
+			<appender-ref ref="NodeFile" level="debug"/>
+		</Logger>
+		<Logger name="Edge" level="debug" additivity="false">
+			<appender-ref ref="EdgeFile" level="debug"/>
+		</Logger>
+		<Logger name="Reach" level="debug" additivity="false">
+			<appender-ref ref="ReachFile" level="debug"/>
+		</Logger>
+	</Loggers>
+</Configuration>
